@@ -52,10 +52,11 @@ PRODUCT_COPY_FILES += \
 
 # Prebuilt kl keymaps
 PRODUCT_COPY_FILES += \
-        device/samsung/ivoryss/bcm_headset.kl:system/usr/keylayout/bcm_headset.kl \
-        device/samsung/ivoryss/bcm_keypad_v2.kl:system/usr/keylayout/bcm_keypad_v2.kl \
-        device/samsung/ivoryss/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-        device/samsung/ivoryss/samsung-keypad.kl:system/usr/keylayout/samsung-keypad.kl
+        device/samsung/ivoryss/keylayout/bcm_headset.kl:system/usr/keylayout/bcm_headset.kl \
+        device/samsung/ivoryss/keylayout/bcm_keypad_v2.kl:system/usr/keylayout/bcm_keypad_v2.kl \
+        device/samsung/ivoryss/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
+        device/samsung/ivoryss/keylayout/samsung-keypad.kl:system/usr/keylayout/samsung-keypad.kl \
+        device/samsung/ivoryss/keylayout/Generic.kl:system/usr/keylayout/Generic.kl
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \

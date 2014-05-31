@@ -7,11 +7,11 @@ on init
     export LD_LIBRARY_PATH /vendor/lib:/system/lib
     export ANDROID_ROOT /system
     export ANDROID_DATA /data
-    export EXTERNAL_STORAGE /sdcard1
+    export EXTERNAL_STORAGE /sdcard
 
     symlink /system/etc /etc
 
-    mkdir /sdcard1
+    mkdir /sdcard
     mkdir /preload
     mkdir /system
     mkdir /data
