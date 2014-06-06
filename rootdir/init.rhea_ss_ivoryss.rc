@@ -3,59 +3,41 @@ import init.bt.rc
 import init.log.rc
 
 on early-init
-    export EXTERNAL_STORAGE /storage/sdcard0
-    mkdir /storage 0550 system sdcard_r
-    mkdir /storage/sdcard0 0000 system system
-    symlink /storage/sdcard0 /sdcard
-    symlink /storage/sdcard0 /mnt/sdcard
-# map "real" external storages paths also in same way. backwards compatibility.
-    symlink /storage/extSdCard /mnt/extSdCard
-    symlink /storage/UsbDriveA /mnt/UsbDriveA
-    symlink /storage/UsbDriveB /mnt/UsbDriveB
-    symlink /storage/UsbDriveC /mnt/UsbDriveC
-    symlink /storage/UsbDriveD /mnt/UsbDriveD
-    symlink /storage/UsbDriveE /mnt/UsbDriveE
-    symlink /storage/UsbDriveF /mnt/UsbDriveF
-
-    export SECONDARY_STORAGE /storage/extSdCard:/storage/UsbDriveA:/storage/UsbDriveB:/storage/UsbDriveC:/storage/UsbDriveD:/storage/UsbDriveE:/storage/UsbDriveF
-    mkdir /storage/extSdCard 0000 system system
-    mkdir /storage/UsbDriveA 0000 system system
-    mkdir /storage/UsbDriveB 0000 system system
-    mkdir /storage/UsbDriveC 0000 system system
-    mkdir /storage/UsbDriveD 0000 system system
-    mkdir /storage/UsbDriveE 0000 system system
-    mkdir /storage/UsbDriveF 0000 system system
+     loglevel 9
 
     mkdir /efs 0771 radio system
-    symlink /efs /factory
-
-    symlink /dev/block/mmcblk0p11 /dev/block/param    
-
-    mkdir /preload 0771 system system 
 
 on init
 
+    mkdir /tmp
+    mount tmpfs tmpfs /tmp
+    chmod 1775 /tmp
+
+    # See storage config details at http://source.android.com/tech/storage/
     mkdir /mnt/shell/emulated 0700 shell shell
-    mkdir /storage 0550 system sdcard_r
     mkdir /storage/emulated 0555 root root
 
-    # External storage directories
-    mkdir /storage/sdcard1 0000 system system
-    mkdir /storage/usbdisk0 0000 system system
-
     export EXTERNAL_STORAGE /storage/emulated/legacy
-    export SECONDARY_STORAGE /storage/sdcard1
     export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
     export EMULATED_STORAGE_TARGET /storage/emulated
 
-    # For backwards compatibility
+    # Support legacy paths
     symlink /storage/emulated/legacy /sdcard
     symlink /storage/emulated/legacy /mnt/sdcard
     symlink /storage/emulated/legacy /storage/sdcard0
     symlink /mnt/shell/emulated/0 /storage/emulated/legacy
-    symlink /storage/sdcard1 /extSdCard
-    symlink /storage/sdcard1 /mnt/extSdCard
-    symlink /storage/sdcard1 /external_sd
+
+    export SECONDARY_STORAGE /storage/sdcard1
+    mkdir /storage/sdcard1 0000 system system
+    symlink /storage/sdcard1 /mnt/external_sd
+
+    symlink /efs /factory
+
+    symlink /dev/block/mmcblk0p11 /dev/block/param
+
+    # We will create our own ril-daemon service with different perm and sockets
+    stop ril-daemon
+
 
 on post-fs-data
 # we will remap this as /storage/sdcard with the sdcard fuse tool
@@ -81,11 +63,17 @@ on post-fs-data
     chown system root /data/.psm.info
     chmod 0660 /data/.psm.info
 
-# for control LCD backlight
-#    chown system system /sys/class/backlight/hw-backlight/brightness
-#    chmod 0660 /sys/class/backlight/hw-backlight/brightness
-#    chown system system /sys/class/backlight/pwm-backlight/brightness
-#    chmod 0660 /sys/class/backlight/pwm-backlight/brightness
+#for ASE application
+    mkdir /data/brcm
+    mkdir /data/brcm/ase
+    mkdir /data/brcm/ase/extras
+    mkdir /data/brcm/ase/scripts
+    chmod 0775 /data/brcm
+    chmod 0775 /data/brcm/ase
+    chmod 0775 /data/brcm/ase/extras
+    chmod 0775 /data/brcm/ase/scripts
+    mkdir /data/brcm/utils
+    chmod 0775 /data/brcm/utils
 
     chown system system /sys/class/backlight/panel/brightness
     chmod 0660 /sys/class/backlight/panel/brightness
@@ -124,38 +112,7 @@ on boot
     write /sys/block/mmcblk0/queue/scheduler noop
 # SISO-ANDR_PERF :: END
 
-    setprop ro.build.product rhea
-    setprop ro.product.device rhea
-    setprop ro.radio.noril yes
-
     chown system system /sys/devices/platform/pwm-backlight.0/backlight/pwm-backlight.0/brightness
-    mount debugfs /sys/kernel/debug /sys/kernel/debug
-
-## mobicore
-#    mkdir /data/app/mcRegistry 0775 system system    
-#    chmod 0777 /dev/mobicore
-## mobicore trustlets
-#    copy /efs/00000000.authtokcont /data/app/mcRegistry/00000000.authtokcont
-#    chown system system /data/app/mcRegistry/00000000.authtokcont
-#    copy /system/app/FFFFFFFF000000000000000000000001.drbin /data/app/FFFFFFFF000000000000000000000001.drbin
-#    chown system system /data/app/FFFFFFFF000000000000000000000001.drbin
-#    copy /system/app/mcRegistry/00060308060501020000000000000000.tlbin /data/app/mcRegistry/00060308060501020000000000000000.tlbin
-#    chown system system /data/app/mcRegistry/00060308060501020000000000000000.tlbin
-#    copy /system/app/mcRegistry/07010000000000000000000000000000.tlbin /data/app/mcRegistry/07010000000000000000000000000000.tlbin
-#    chown system system /data/app/mcRegistry/07010000000000000000000000000000.tlbin
-#    copy /system/app/mcRegistry/ffffffff000000000000000000000003.tlbin /data/app/mcRegistry/ffffffff000000000000000000000003.tlbin
-#    chown system system /data/app/mcRegistry/ffffffff000000000000000000000003.tlbin
-#    copy /system/app/mcRegistry/ffffffff000000000000000000000004.tlbin /data/app/mcRegistry/ffffffff000000000000000000000004.tlbin
-#    chown system system /data/app/mcRegistry/ffffffff000000000000000000000004.tlbin
-#    copy /system/app/mcRegistry/ffffffff000000000000000000000005.tlbin /data/app/mcRegistry/ffffffff000000000000000000000005.tlbin
-#    chown system system /data/app/mcRegistry/ffffffff000000000000000000000005.tlbin
-#    copy /system/app/mcRegistry/02010000080300030000000000000000.tlbin /data/app/mcRegistry/02010000080300030000000000000000.tlbin
-#    chown system system /data/app/mcRegistry/02010000080300030000000000000000.tlbin
-
-# WIFI
-    setprop wifi.interface wlan0
-
-    symlink /dev/block/mmcblk0p4 /dev/block/param
 
 # Permissions for bluetooth
     setprop ro.bt.bdaddr_path "/efs/bluetooth/bt_addr"
@@ -193,41 +150,12 @@ on boot
 # permission for bcm_keypad (wakeup keys)
     chown radio system /sys/class/keyclass/keypad/wakeup_keys
     write /sys/class/keyclass/keypad/wakeup_keys C0,102
-
-	
-## Gyro_sensor
-#    chown system radio /dev/lsm330dlc_gyro_misc
-#    chown system radio /sys/class/sensors/gyro_sensor/power_on
-#    chown system radio /sys/class/sensors/gyro_sensor/power_off
-#    chown system radio /sys/class/sensors/gyro_sensor/temperature
-#    chown system radio /sys/class/sensors/gyro_sensor/selftest
-#    chown system radio /sys/class/sensors/gyro_sensor/selftest_dps
-#    chown system radio /sys/class/sensors/gyro_sensor/vendor
-#    chown system radio /sys/class/sensors/gyro_sensor/name
-## Barometer_sensor
-#    chown system radio /sys/class/input/input5/pressure_reference_level
-#    chown system radio /sys/class/input/input5/temperature_reference_level
-#    chown system radio /sys/class/input/input5/enable_autozero
-#    chown system radio /sys/class/input/input5/compensation_param
-#    chown system radio /sys/class/input/input5/reg_value
-#    chown system radio /sys/class/input/input5/reg_addr
-#    chown system radio /sys/class/sensors/barometer_sensor/sea_level_pressure
-#    chown system radio /sys/class/sensors/barometer_sensor/vendor
-#    chown system radio /sys/class/sensors/barometer_sensor/name 
-#    chown system radio /sys/class/sensors/barometer_sensor/calibration 
+ 
 # Magnetic_sensor
     chown system radio /dev/akm8975
     chown system radio /sys/class/sensors/magnetic_sensor/raw_data
     chown system radio /sys/class/sensors/magnetic_sensor/vendor
     chown system radio /sys/class/sensors/magnetic_sensor/name
-## NFC
-#    setprop ro.nfc.port "I2C"
-#    chmod 0600 /dev/pn544
-#    chown nfc nfc /dev/pn544
-
-## Vibetonz
-#    chmod 0660 /dev/tspdrv
-#    chown root shell /dev/tspdrv
 
 # required so RIL can open kernel RPC drivers
     chmod 0660 /dev/bcm_rpc
@@ -330,88 +258,78 @@ on boot
 #for bluetooth. permission for host interface
     chown root bluetooth /dev/ttyS0
     chmod 0777 /dev/ttyS0
-    
-#for fm radio    
-    copy /system/etc/local.prop /data/local.prop
-    chown system bluetooth /data/local.prop
-    chmod 0660 /data/local.prop
-#    setprop service.brcm.bt.patchfile /system/bin/BCM2076B1_xxx.hcd
-# permissions for FMRadio of Broadcom
-    chmod 0777 /system/bin/btld
 
-# permission for FMRadion Intenna
-    write /sys/class/gpio/export 92
-    chown system system /sys/class/gpio/gpio92/value
-    chown system system /sys/class/gpio/gpio92/direction
-    write /sys/class/gpio/gpio92/value 0
-    write /sys/class/gpio/gpio92/direction out
-    write /sys/class/gpio/export 56
-    chown system system /sys/class/gpio/gpio56/value
-    chown system system /sys/class/gpio/gpio56/direction
-    write /sys/class/gpio/gpio56/value 0
-    write /sys/class/gpio/gpio56/direction out
-    
+# Permission for pm debug - force sleep
+    chown system system /sys/module/rhea_pm_dbg/parameters/debug
+
 # SEC_PRODUCT_FEATURE_COMMON_USE_MULTISIM
     setprop ro.multisim.simslotcount 1 
+
+    # for multi csc
+    chown radio radio /proc/LinuStoreIII/efs_info 
+    chmod 0664 /proc/LinuStoreIII/efs_info
+    # for protecting key string
+    chown radio radio /proc/LinuStoreIII/keystr 
+    chmod 0664 /proc/LinuStoreIII/keystr
+    # for ril_prop
+    chown radio radio /proc/LinuStoreIII/ril_prop 
+    chmod 0664 /proc/LinuStoreIII/ril_prop
+    # for fsbuild_check
+    chown radio radio /proc/LinuStoreIII/fsbuild_check 
+    chmod 0664 /proc/LinuStoreIII/fsbuild_check
+    # for recovery_opts
+    chown system radio /proc/LinuStoreIII/recovery_opts 
+    chmod 0664 /proc/LinuStoreIII/recovery_opts
+
+# Audio (Earjack)
+    chown system radio /sys/class/audio/earjack/select_jack
+    chown system radio /sys/class/audio/earjack/key_state
+    chown system radio /sys/class/audio/earjack/state
+    chown media system /sys/class/audio/earjack/reselect_jack 
+
+# Permissions for touch
+    chown system radio /sys/class/sec/tsp/cmd
+
+# Permissions for Touchkey
+	chown system radio /sys/class/sec/sec_touchkey/touchkey_menu
+	chown system radio /sys/class/sec/sec_touchkey/touchkey_back
+	chown system radio /sys/class/sec/sec_touchkey/touchkey_threshold
+
+# Accy
+    chown radio system /sys/devices/platform/bcmpmu_accy/jiglock
+
+# Permissions for Camera
+    chown system radio /sys/class/camera/rear/rear_camfw
+    chown system radio /sys/class/camera/rear/rear_camtype
+    chown system radio /sys/class/camera/rear/rear_flash
+    chown system radio /sys/class/camera/rear/isp_core
+    chown system radio /sys/class/camera/front/front_camfw
+    chown system radio /sys/class/camera/front/front_camtype
+    chown system radio /sys/class/flash/flash/flash_power
+    chown radio system /sys/devices/platform/samsung-pd.5/s3c-fimc.2/range_mode
+    chmod 0660 /sys/devices/platform/samsung-pd.5/s3c-fimc.2/range_mode
+
+# Switch Device
+    chown system radio /sys/class/sec/switch/adc
+
+#voice Soulution
+    copy /system/etc/DiamondVoice.txt /data/DiamondVoice.txt
+    chmod 0777 /data/DiamondVoice.txt	
+    copy /system/etc/DiamondVoice_Filter.txt /data/DiamondVoice_Filter.txt
+    chmod 0777 /data/DiamondVoice_Filter.txt
+	insmod /system/lib/modules/VoiceSolution.ko
     
 on fs
     mount_all /fstab.rhea_ss_ivoryss
     setprop ro.crypto.fuse_sdcard true
 
-    # don't require sim
-    setprop keyguard.no_require_sim 1
-
-    #j4fs module
-    insmod /system/lib/modules/j4fs.ko
-    mount j4fs /dev/block/mmcblk0p4 /mnt/.lfs 
-
-    #SEC_PARAM
-    insmod sec_param.ko
-
-#exFAT module
-    insmod /system/lib/modules/exfat_core.ko
-    insmod /system/lib/modules/exfat_fs.ko
-
 # For NV Read/Write 
 	chown radio system /dev/block/mmcblk0p18    
 	chmod 0770 /dev/block/mmcblk0p18
 
-	chmod 6755 /system/xbin/su
-
-#for ASE application
-    mkdir /data/brcm
-    mkdir /data/brcm/ase
-    mkdir /data/brcm/ase/extras
-    mkdir /data/brcm/ase/scripts
-    chmod 0775 /data/brcm
-    chmod 0775 /data/brcm/ase
-    chmod 0775 /data/brcm/ase/extras
-    chmod 0775 /data/brcm/ase/scripts
-    copy /system/etc/adb.sh /data/brcm/ase/scripts/adb.sh
-    copy /system/etc/rndis.sh /data/brcm/ase/scripts/rndis.sh
-    copy /system/etc/logcfg.sh /data/brcm/ase/scripts/logcfg.sh
-    copy /system/etc/modem.sh /data/brcm/ase/scripts/modem.sh
-    copy /system/etc/atmode.sh /data/brcm/ase/scripts/atmode.sh
-    copy /system/etc/atmode.sh /data/brcm/ase/scripts/usbconfig.sh
-    chmod 0775 /data/brcm/ase/scripts/adb.sh
-    chmod 0775 /data/brcm/ase/scripts/rndis.sh
-    chmod 0775 /data/brcm/ase/scripts/logcfg.sh
-    chmod 0775 /data/brcm/ase/scripts/modem.sh
-    chmod 0775 /data/brcm/ase/scripts/atmode.sh
-    chmod 0775 /data/brcm/ase/scripts/usbconfig.sh
-#runSysCmd
-    mkdir /data/brcm/utils
-    chmod 0775 /data/brcm/utils
-
 #   Logging required to save file in /data/brcm for configuration
     mkdir /data/brcm
     chmod 0775 /data/brcm
-
-# Permissions for System Server and daemons.
-#    chown system system /sys/devices/platform/pwm-backlight.0/backlight/pwm-backlight.0/brightness
-
-# Permission for pm debug - force sleep
-    chown system system /sys/module/rhea_pm_dbg/parameters/debug
 
     #for touch fw
     chown system system /sys/class/sec/tsp/cmd
@@ -470,24 +388,6 @@ on post-fs
     chown radio system /efs
     chmod 0771 /efs
 
-on property:persist.sys.storage_preload=1
-    mount ext4 /dev/block/mmcblk0p10 /preload nosuid nodev noatime wait ro
-    setprop storage.preload.complete 1
-
-on property:persist.sys.storage_preload=0
-    exec /system/bin/umount /preload   
-
-## Daemon processes to be run by init.
-##
-#service console /system/bin/sh
-#    class core
-#    console
-#    disabled
-#    group log
-
-on property:ro.debuggable=1
-    start console
-
 # create filesystem if necessary
 service setup_fs /system/bin/setup_fs \
             /dev/block/mmcblk0p3 \
@@ -496,6 +396,7 @@ service setup_fs /system/bin/setup_fs \
     user root
     group root
     oneshot
+
 #at_distributor for making concerned about factory.
 service at_distributor /system/bin/at_distributor
 	class main
@@ -504,14 +405,13 @@ service at_distributor /system/bin/at_distributor
 	oneshot
 
 # RILD
-service ril-daemon /system/bin/rild
+service rhea-ril-daemon /system/bin/rild
     class main
     socket rild stream 660 root radio
     socket rild1 stream 660 root radio
     socket rild-debug stream 660 radio system
     user root
     group radio cache inet misc audio system sdcard_rw log sdcard_r
-#    onrestart restart cpboot-daemon
 
 # create virtual SD card at /storage/sdcard, based on the /data/media directory
 # daemon will drop to user/group system/media_rw after initializing
