@@ -11,51 +11,5 @@
 ## part         - Partition # (1 based), or 'auto' for first usable partition.
 ## <sysfs_path> - List of sysfs paths to source devices
 ######################
-{
-	supported_exfat = no
-}
-#dev_mount sdcard /storage/sdcard auto /devices/platform/mmc_host/mmc2
-dev_mount sdcard /storage/extSdCard auto /devices/platform/sdhci.0/mmc_host/mmc2
 
-
-#usb host device 
-{
-	media_type = usb
-	supported_exfat = no
-}
-dev_mount sda /storage/UsbDriveA auto /devices/platform/dwc_otg/usb1
-
-#usb host device 
-{
-	media_type = usb
-	supported_exfat = no
-}
-dev_mount sdb /storage/UsbDriveB auto /devices/platform/dwc_otg/usb1
-
-#usb host device 
-{
-	media_type = usb
-	supported_exfat = no
-}
-dev_mount sdc /storage/UsbDriveC auto /devices/platform/dwc_otg/usb1
-
-#usb host device 
-{
-	media_type = usb
-	supported_exfat = no
-}
-dev_mount sdd /storage/UsbDriveD auto /devices/platform/dwc_otg/usb1
-
-#usb host device 
-{
-	media_type = usb
-	supported_exfat = no
-}
-dev_mount sde /storage/UsbDriveE auto /devices/platform/dwc_otg/usb1
-
-#usb host device 
-{
-	media_type = usb
-	supported_exfat = no
-}
-dev_mount sdf /storage/UsbDriveF auto /devices/platform/dwc_otg/usb1
+dev_mount sdcard /storage/sdcard1 auto /devices/platform/sdhci.0/mmc_host/mmc2
