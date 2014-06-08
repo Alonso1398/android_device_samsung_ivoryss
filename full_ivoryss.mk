@@ -41,7 +41,6 @@ PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/rootdir/init.bcm2165x.usb.rc:root/init.bcm2165x.usb.rc \
         device/samsung/ivoryss/rootdir/init.log.rc:root/init.log.rc \
         device/samsung/ivoryss/rootdir/lpm.rc:root/lpm.rc \
-        device/samsung/ivoryss/rootdir/init.bt.rc:root/init.bt.rc \
         device/samsung/ivoryss/rootdir/ueventd.rhea_ss_ivoryss.rc:root/ueventd.rhea_ss_ivoryss.rc \
         device/samsung/ivoryss/rootdir/init.recovery.rhea_ss_ivoryss.rc:root/init.recovery.rhea_ss_ivoryss.rc \
         device/samsung/ivoryss/rootdir/fstab.rhea_ss_ivoryss:root/fstab.rhea_ss_ivoryss
@@ -91,7 +90,6 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.location.xml:system/etc/permissions/android.hardware.location.xml \
 	frameworks/native/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
 	frameworks/native/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
-	frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
 	frameworks/native/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
 	frameworks/native/data/etc/android.hardware.sensor.compass.xml:system/etc/permissions/android.hardware.sensor.compass.xml \
 	frameworks/native/data/etc/android.hardware.sensor.gyroscope.xml:system/etc/permissions/android.hardware.sensor.gyroscope.xml \
