@@ -551,3 +551,8 @@ on property:dev.bootcomplete=1
 
 service battery_charger /charger
     class charger
+# Compcache Init
+service swap_service /system/bin/sh /init.zram.sh
+    class late_start
+    user root
+    oneshot
