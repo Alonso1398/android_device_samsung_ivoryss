@@ -326,6 +326,14 @@ on fs
 
 	chmod 6755 /system/xbin/su
 
+# Permissions for DVFS
+    chown radio system /sys/power/cpufreq_table
+    chown radio system /sys/power/cpufreq_max_limit
+    chown radio system /sys/power/cpufreq_min_limit
+    chmod 0660 /sys/power/cpufreq_table
+    chmod 0660 /sys/power/cpufreq_max_limit
+    chmod 0660 /sys/power/cpufreq_min_limit
+
 #   Logging required to save file in /data/brcm for configuration
     mkdir /data/brcm
     chmod 0775 /data/brcm
@@ -547,7 +555,6 @@ service set_simid /system/bin/atx --fordev=ACM --runcmd=/data/atx/setsim.txt
 #Indicate boot complete to PM to complete PM initialization
 on property:dev.bootcomplete=1
     write /sys/module/rhea_pwr_mgr/parameters/pm_late_init 1
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
 
 service battery_charger /charger
     class charger
