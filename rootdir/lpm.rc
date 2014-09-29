@@ -55,6 +55,8 @@ service debuggerd /system/bin/debuggerd
 	service ueventd /sbin/ueventd
     	critical
 
+service battery_charger /charger
+
 #service console /bin/sh
 service console /system/bin/sh
 	console
