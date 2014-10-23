@@ -113,8 +113,8 @@ on boot
 # Permissions for bluetooth
     setprop ro.bt.bdaddr_path "/efs/bluetooth/bt_addr"
     chown bluetooth net_bt_stack ro.bt.bdaddr_path
-#    chown bluetooth net_bt_stack /dev/ttyS0
-#    chmod 0600 /dev/ttyS0
+    chown bluetooth net_bt_stack /dev/ttyS0
+    chmod 0600 /dev/ttyS0
     chmod 0660 /sys/class/rfkill/rfkill0/state
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/state
     chown bluetooth net_bt_stack /sys/class/rfkill/rfkill0/type
@@ -259,6 +259,26 @@ on boot
 
 # Permission for pm debug - force sleep
     chown system system /sys/module/rhea_pm_dbg/parameters/debug
+
+#for fm radio    
+    copy /system/etc/local.prop /data/local.prop
+    chown system bluetooth /data/local.prop
+    chmod 0660 /data/local.prop
+#    setprop service.brcm.bt.patchfile /system/bin/BCM2076B1_xxx.hcd
+# permissions for FMRadio of Broadcom
+    chmod 0777 /system/bin/btld
+
+# permission for FMRadion Intenna
+    write /sys/class/gpio/export 92
+    chown system system /sys/class/gpio/gpio92/value
+    chown system system /sys/class/gpio/gpio92/direction
+    write /sys/class/gpio/gpio92/value 0
+    write /sys/class/gpio/gpio92/direction out
+    write /sys/class/gpio/export 56
+    chown system system /sys/class/gpio/gpio56/value
+    chown system system /sys/class/gpio/gpio56/direction
+    write /sys/class/gpio/gpio56/value 0
+    write /sys/class/gpio/gpio56/direction out
     
 # SEC_PRODUCT_FEATURE_COMMON_USE_MULTISIM
     setprop ro.multisim.simslotcount 1 
@@ -556,8 +576,6 @@ service set_simid /system/bin/atx --fordev=ACM --runcmd=/data/atx/setsim.txt
 on property:dev.bootcomplete=1
     write /sys/module/rhea_pwr_mgr/parameters/pm_late_init 1
 
-service battery_charger /charger
-    class charger
 # Compcache Init
 service swap_service /system/bin/sh /init.zram.sh
     class late_start
