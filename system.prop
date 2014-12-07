@@ -38,5 +38,3 @@ ro.com.google.gmsversion=4.1_r4
 # TODO - and no default APN?
 persist.sys.dataprefer.simid=0
 
-#Support Multiuser
-fw.max_users=5
