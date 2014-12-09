@@ -259,26 +259,6 @@ on boot
 
 # Permission for pm debug - force sleep
     chown system system /sys/module/rhea_pm_dbg/parameters/debug
-
-#for fm radio    
-    copy /system/etc/local.prop /data/local.prop
-    chown system bluetooth /data/local.prop
-    chmod 0660 /data/local.prop
-#    setprop service.brcm.bt.patchfile /system/bin/BCM2076B1_xxx.hcd
-# permissions for FMRadio of Broadcom
-    chmod 0777 /system/bin/btld
-
-# permission for FMRadion Intenna
-    write /sys/class/gpio/export 92
-    chown system system /sys/class/gpio/gpio92/value
-    chown system system /sys/class/gpio/gpio92/direction
-    write /sys/class/gpio/gpio92/value 0
-    write /sys/class/gpio/gpio92/direction out
-    write /sys/class/gpio/export 56
-    chown system system /sys/class/gpio/gpio56/value
-    chown system system /sys/class/gpio/gpio56/direction
-    write /sys/class/gpio/gpio56/value 0
-    write /sys/class/gpio/gpio56/direction out
     
 # SEC_PRODUCT_FEATURE_COMMON_USE_MULTISIM
     setprop ro.multisim.simslotcount 1 
