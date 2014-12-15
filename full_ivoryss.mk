@@ -40,15 +40,12 @@ PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/rootdir/init.rhea_ss_ivoryss.rc:root/init.rhea_ss_ivoryss.rc \
         device/samsung/ivoryss/rootdir/init.bcm2165x.usb.rc:root/init.bcm2165x.usb.rc \
         device/samsung/ivoryss/rootdir/init.log.rc:root/init.log.rc \
+	device/samsung/ivoryss/rootdir/init.bt.rc:root/init.bt.rc \
         device/samsung/ivoryss/rootdir/lpm.rc:root/lpm.rc \
         device/samsung/ivoryss/rootdir/ueventd.rhea_ss_ivoryss.rc:root/ueventd.rhea_ss_ivoryss.rc \
         device/samsung/ivoryss/rootdir/init.recovery.rhea_ss_ivoryss.rc:root/init.recovery.rhea_ss_ivoryss.rc \
         device/samsung/ivoryss/rootdir/fstab.rhea_ss_ivoryss:root/fstab.rhea_ss_ivoryss \
         device/samsung/ivoryss/rootdir/init.zram.sh:root/init.zram.sh
-
-PRODUCT_COPY_FILES += \
-        device/samsung/ivoryss/vold.fstab:system/etc/vold.fstab \
-        device/samsung/ivoryss/vold.conf:system/etc/vold.conf
 
 # Prebuilt kl keymaps
 PRODUCT_COPY_FILES += \
@@ -60,8 +57,7 @@ PRODUCT_COPY_FILES += \
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
-        setup_fs \
-        make_ext4fs
+        setup_fs
 
 # Usb accessory
         PRODUCT_PACKAGES += \
@@ -101,13 +97,22 @@ PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.usb.accessory.xml:system/etc/permissions/android.hardware.usb.accessory.xml \
 	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
 
+# Support for Browser's saved page feature. This allows
+# for pages saved on previous versions of the OS to be
+# viewed on the current OS.
+PRODUCT_PACKAGES += \
+    libskia_legacy
+
 # These are the hardware-specific settings that are stored in system properties.
 # Note that the only such settings should be the ones that are too low-level to
 # be reachable from resources or other mechanisms.
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
     mobiledata.interfaces=rmnet0 \
-    ro.telephony.ril_class=SamsungBCMRIL
+    ro.telephony.ril_class=SamsungBCMRIL \
+    ro.zygote.disable_gl_preload=true \
+    ro.telephony.call_ring.multiple=0 \
+    ro.telephony.call_ring=0
 
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector
@@ -137,6 +142,7 @@ include frameworks/native/build/phone-hdpi-512-dalvik-heap.mk
 # we have enough storage space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
 
+$(call inherit-product, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
