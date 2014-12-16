@@ -15,4 +15,4 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/full_ivoryss.mk
+    $(LOCAL_DIR)/nameless_ivoryss.mk

@@ -21,6 +21,9 @@
 # lines, full and toro, hence its name.
 #
 
+# Inherit some common NamelessRom stuff.
+$(call inherit-product, vendor/nameless/config/common.mk)
+
 $(call inherit-product, $(SRC_TARGET_DIR)/product/languages_full.mk)
 
 # The gps config appropriate for this device
@@ -146,7 +149,7 @@ $(call inherit-product, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
-PRODUCT_NAME := full_ivoryss
+PRODUCT_NAME := nameless_ivoryss
 PRODUCT_DEVICE := ivoryss
 PRODUCT_BRAND := samsung
 PRODUCT_MANUFACTURER := samsung
