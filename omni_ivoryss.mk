@@ -32,6 +32,9 @@ PRODUCT_AAPT_CONFIG := normal ldpi mdpi nodpi
 PRODUCT_AAPT_PREF_CONFIG := ldpi
 #$(call inherit-product, device/ldpi-common/ldpi.mk)
 
+# Inherit some common Omni stuff.
+$(call inherit-product, vendor/omni/config/common.mk)
+
 # Init files
 PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/rootdir/init.rhea_ss_ivoryss.rc:root/init.rhea_ss_ivoryss.rc \
@@ -146,7 +149,7 @@ $(call inherit-product, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
-PRODUCT_NAME := full_ivoryss
+PRODUCT_NAME := omni_ivoryss
 PRODUCT_DEVICE := ivoryss
 PRODUCT_BRAND := samsung
 PRODUCT_MANUFACTURER := samsung
