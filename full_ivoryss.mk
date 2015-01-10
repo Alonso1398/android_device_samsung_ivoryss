@@ -75,6 +75,11 @@ PRODUCT_PACKAGES += \
         charger \
         charger_res_images
 
+#Wi-fi thetering fix
+PRODUCT_COPY_FILES += \
+        device/samsung/ivoryss/wpa_supplicant:system/bin/wpa_supplicant \
+        device/samsung/ivoryss/hostapd:system/bin/hostapd
+
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
@@ -99,7 +104,7 @@ PRODUCT_COPY_FILES += \
 # for pages saved on previous versions of the OS to be
 # viewed on the current OS.
 PRODUCT_PACKAGES += \
-    libskia_legacy
+    libskia_legacy \
 
 # These are the hardware-specific settings that are stored in system properties.
 # Note that the only such settings should be the ones that are too low-level to
