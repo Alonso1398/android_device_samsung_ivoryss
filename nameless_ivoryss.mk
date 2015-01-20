@@ -81,6 +81,11 @@ PRODUCT_PACKAGES += \
         charger \
         charger_res_images
 
+#Wi-fi thetering fix
+PRODUCT_COPY_FILES += \
+        device/samsung/ivoryss/wpa_supplicant:system/bin/wpa_supplicant \
+        device/samsung/ivoryss/hostapd:system/bin/hostapd
+
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
