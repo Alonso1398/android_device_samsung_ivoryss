@@ -349,7 +349,7 @@ public class SamsungBCMRIL extends RIL implements CommandsInterface {
             // hack taken from smdk4210ril class
             voiceSettings = p.readInt();
             //printing it to cosole for later investigation
-            Rlog.d(LOG_TAG, "Samsung magic = " + voiceSettings);
+            //Rlog.d(LOG_TAG, "Samsung magic = "+voiceSettings);
             dc.isVoicePrivacy = (0 != p.readInt());
             dc.number = p.readString();
             int np = p.readInt();

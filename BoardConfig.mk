@@ -3,6 +3,9 @@ USE_CAMERA_STUB := true
 # inherit from the proprietary version
 -include vendor/samsung/ivoryss/BoardConfigVendor.mk
 
+# Legacy MMAP for pre-lollipop blobs
+BOARD_USES_LEGACY_MMAP := true
+
 TARGET_ARCH := arm
 TARGET_NO_BOOTLOADER := true
 TARGET_BOARD_PLATFORM := rhea
@@ -15,7 +18,7 @@ TARGET_ARCH_LOWMEM := true
 
 TARGET_BOOTLOADER_BOARD_NAME := rhea
 
-BOARD_KERNEL_CMDLINE := console=ttyS0,115200n8 mem=456M androidboot.console=ttyS0 gpt v3d_mem=67108864 pmem=24M@0x9E800000
+BOARD_KERNEL_CMDLINE := androidboot.selinux=permissive androidboot.console=ttyS0
 BOARD_KERNEL_BASE := 0x82000000
 BOARD_KERNEL_PAGESIZE := 4096
 
@@ -71,7 +74,7 @@ COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 COMMON_GLOBAL_CFLAGS += -DMR0_CAMERA_BLOB -DEGL_NEEDS_FNW
 
 # Audio
-COMMON_GLOBAL_CFLAGS += -DMR0_AUDIO_BLOB -DRHEA_HWC
+COMMON_GLOBAL_CFLAGS += -DMR0_AUDIO_BLOB
 
 # Charger
 BOARD_CHARGER_ENABLE_SUSPEND := true
@@ -99,3 +102,9 @@ BOARD_SEPOLICY_DIRS += \
 
 BOARD_SEPOLICY_UNION += \
     file_contexts \
+    surfaceflinger.te \
+    init.te \
+    shell.te \
+    netd.te \
+    device.te \
+    rild.te \

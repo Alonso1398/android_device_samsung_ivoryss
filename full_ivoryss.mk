@@ -38,7 +38,6 @@ PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/rootdir/init.bcm2165x.usb.rc:root/init.bcm2165x.usb.rc \
         device/samsung/ivoryss/rootdir/init.log.rc:root/init.log.rc \
 	device/samsung/ivoryss/rootdir/init.bt.rc:root/init.bt.rc \
-        device/samsung/ivoryss/rootdir/lpm.rc:root/lpm.rc \
         device/samsung/ivoryss/rootdir/ueventd.rhea_ss_ivoryss.rc:root/ueventd.rhea_ss_ivoryss.rc \
         device/samsung/ivoryss/rootdir/init.recovery.rhea_ss_ivoryss.rc:root/init.recovery.rhea_ss_ivoryss.rc \
         device/samsung/ivoryss/rootdir/fstab.rhea_ss_ivoryss:root/fstab.rhea_ss_ivoryss \
@@ -49,8 +48,7 @@ PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/keylayout/bcm_headset.kl:system/usr/keylayout/bcm_headset.kl \
         device/samsung/ivoryss/keylayout/bcm_keypad_v2.kl:system/usr/keylayout/bcm_keypad_v2.kl \
         device/samsung/ivoryss/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-        device/samsung/ivoryss/keylayout/samsung-keypad.kl:system/usr/keylayout/samsung-keypad.kl \
-        device/samsung/ivoryss/keylayout/Generic.kl:system/usr/keylayout/Generic.kl
+        device/samsung/ivoryss/keylayout/samsung-keypad.kl:system/usr/keylayout/samsung-keypad.kl
 
 # Filesystem management tools
 PRODUCT_PACKAGES += \
@@ -63,7 +61,9 @@ PRODUCT_PACKAGES += \
 # Misc other modules
 PRODUCT_PACKAGES += \
         audio.a2dp.default \
-        audio.usb.default
+        audio.usb.default \
+        audio.r_submix.default
+
 
 # Device-specific packages
 PRODUCT_PACKAGES += \
@@ -72,13 +72,7 @@ PRODUCT_PACKAGES += \
 
 # Charger
 PRODUCT_PACKAGES += \
-        charger \
         charger_res_images
-
-#Wi-fi thetering fix
-PRODUCT_COPY_FILES += \
-        device/samsung/ivoryss/wpa_supplicant:system/bin/wpa_supplicant \
-        device/samsung/ivoryss/hostapd:system/bin/hostapd
 
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
@@ -104,7 +98,12 @@ PRODUCT_COPY_FILES += \
 # for pages saved on previous versions of the OS to be
 # viewed on the current OS.
 PRODUCT_PACKAGES += \
-    libskia_legacy \
+    libskia_legacy
+
+# Building with wpa_supplicant binary
+PRODUCT_PACKAGES += \
+    wpa_supplicant \
+    hostapd
 
 # These are the hardware-specific settings that are stored in system properties.
 # Note that the only such settings should be the ones that are too low-level to
