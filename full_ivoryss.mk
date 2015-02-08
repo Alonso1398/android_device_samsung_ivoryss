@@ -40,8 +40,7 @@ PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/rootdir/lpm.rc:root/lpm.rc \
         device/samsung/ivoryss/rootdir/ueventd.rhea_ss_ivoryss.rc:root/ueventd.rhea_ss_ivoryss.rc \
         device/samsung/ivoryss/rootdir/init.recovery.rhea_ss_ivoryss.rc:root/init.recovery.rhea_ss_ivoryss.rc \
-        device/samsung/ivoryss/rootdir/fstab.rhea_ss_ivoryss:root/fstab.rhea_ss_ivoryss \
-        device/samsung/ivoryss/rootdir/init.zram.sh:root/init.zram.sh
+        device/samsung/ivoryss/rootdir/fstab.rhea_ss_ivoryss:root/fstab.rhea_ss_ivoryss
 
 PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/vold.fstab:system/etc/vold.fstab \
