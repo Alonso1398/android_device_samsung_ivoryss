@@ -37,12 +37,16 @@ PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/rootdir/init.rhea_ss_ivoryss.rc:root/init.rhea_ss_ivoryss.rc \
         device/samsung/ivoryss/rootdir/init.bcm2165x.usb.rc:root/init.bcm2165x.usb.rc \
         device/samsung/ivoryss/rootdir/init.log.rc:root/init.log.rc \
-	device/samsung/ivoryss/rootdir/init.bt.rc:root/init.bt.rc \
         device/samsung/ivoryss/rootdir/lpm.rc:root/lpm.rc \
         device/samsung/ivoryss/rootdir/ueventd.rhea_ss_ivoryss.rc:root/ueventd.rhea_ss_ivoryss.rc \
         device/samsung/ivoryss/rootdir/init.recovery.rhea_ss_ivoryss.rc:root/init.recovery.rhea_ss_ivoryss.rc \
         device/samsung/ivoryss/rootdir/fstab.rhea_ss_ivoryss:root/fstab.rhea_ss_ivoryss \
-        device/samsung/ivoryss/rootdir/init.zram.sh:root/init.zram.sh
+        device/samsung/ivoryss/rootdir/init.zram.sh:root/init.zram.sh \
+        device/samsung/ivoryss/rootdir/charger:root/charger
+
+# Prebuilt Omnirom camera
+PRODUCT_COPY_FILES += \
+        device/samsung/ivoryss/Camera2.apk:system/app/Camera2.apk
 
 # Prebuilt kl keymaps
 PRODUCT_COPY_FILES += \
@@ -104,7 +108,7 @@ PRODUCT_COPY_FILES += \
 # for pages saved on previous versions of the OS to be
 # viewed on the current OS.
 PRODUCT_PACKAGES += \
-    libskia_legacy \
+    libskia_legacy
 
 # These are the hardware-specific settings that are stored in system properties.
 # Note that the only such settings should be the ones that are too low-level to
