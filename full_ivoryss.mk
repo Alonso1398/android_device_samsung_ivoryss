@@ -43,7 +43,7 @@ PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/rootdir/fstab.rhea_ss_ivoryss:root/fstab.rhea_ss_ivoryss \
         device/samsung/ivoryss/rootdir/charger:root/charger
 
-# Prebuilt Omnirom camera
+# Prebuilt CyanogenMod Camera without scene mode bug
 PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/Camera2.apk:system/app/Camera2.apk
 
