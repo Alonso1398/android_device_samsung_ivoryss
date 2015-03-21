@@ -1,5 +1,4 @@
 import init.bcm2165x.usb.rc
-import init.bt.rc
 import init.log.rc
 
 on early-init
@@ -532,8 +531,3 @@ service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1
     class late_start
     disabled
 
-# Compcache Init
-service swap_service /system/bin/sh /init.zram.sh
-    class late_start
-    user root
-    oneshot
