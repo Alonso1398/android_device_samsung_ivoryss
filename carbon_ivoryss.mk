@@ -32,6 +32,9 @@ PRODUCT_AAPT_CONFIG := normal ldpi mdpi nodpi
 PRODUCT_AAPT_PREF_CONFIG := ldpi
 #$(call inherit-product, device/ldpi-common/ldpi.mk)
 
+# Inherit some common Carbon stuff.
+$(call inherit-product, vendor/carbon/config/common_phone.mk)
+
 # Init files
 PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/rootdir/init.rhea_ss_ivoryss.rc:root/init.rhea_ss_ivoryss.rc \
@@ -43,7 +46,7 @@ PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/rootdir/fstab.rhea_ss_ivoryss:root/fstab.rhea_ss_ivoryss \
         device/samsung/ivoryss/rootdir/charger:root/charger
 
-# Prebuilt CyanogenMod Camera without scene mode bug
+# Prebuilt CarbonRom Camera without scene mode bug
 PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/Camera2.apk:system/app/Camera2.apk
 
@@ -155,7 +158,7 @@ $(call inherit-product, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
-PRODUCT_NAME := full_ivoryss
+PRODUCT_NAME := carbon_ivoryss
 PRODUCT_DEVICE := ivoryss
 PRODUCT_BRAND := samsung
 PRODUCT_MANUFACTURER := samsung
