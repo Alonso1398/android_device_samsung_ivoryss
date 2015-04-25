@@ -122,9 +122,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.zygote.disable_gl_preload=true \
     persist.radio.multisim.config=dsds \
     ro.telephony.call_ring.multiple=0 \
-    ro.telephony.call_ring=0 \
-    ro.config.low_ram=true \
-    persist.sys.force_highendgfx=true
+    ro.telephony.call_ring=0
 
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector
