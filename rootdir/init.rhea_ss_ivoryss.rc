@@ -1,5 +1,4 @@
 import init.bcm2165x.usb.rc
-import init.bt.rc
 import init.log.rc
 
 on early-init
@@ -526,15 +525,10 @@ service bkmgrd /system/bin/bkmgrd
 #Indicate boot complete to PM to complete PM initialization
 on property:dev.bootcomplete=1
     write /sys/module/rhea_pwr_mgr/parameters/pm_late_init 1
-    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor ondemand
 
 # fusewrapped external sdcard daemon running as media_rw (1023)
 service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1 /storage/sdcard1
     class late_start
     disabled
 
-# Compcache Init
-service swap_service /system/bin/sh /init.zram.sh
-    class late_start
-    user root
-    oneshot
+
