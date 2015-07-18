@@ -43,10 +43,6 @@ PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/rootdir/fstab.rhea_ss_ivoryss:root/fstab.rhea_ss_ivoryss \
         device/samsung/ivoryss/rootdir/charger:root/charger
 
-# Prebuilt CyanogenMod Camera without scene mode bug
-PRODUCT_COPY_FILES += \
-        device/samsung/ivoryss/Camera2.apk:system/app/Camera2.apk
-
 # Prebuilt kl keymaps
 PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/keylayout/bcm_headset.kl:system/usr/keylayout/bcm_headset.kl \
@@ -55,18 +51,24 @@ PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/keylayout/samsung-keypad.kl:system/usr/keylayout/samsung-keypad.kl \
         device/samsung/ivoryss/keylayout/Generic.kl:system/usr/keylayout/Generic.kl
 
+# Bootanimation
+PRODUCT_COPY_FILES +=  \
+     vendor/slim/prebuilt/common/bootanimation/480.zip:system/media/bootanimation.zip
+
 # Filesystem management tools
 PRODUCT_PACKAGES += \
         setup_fs
 
 # Usb accessory
-        PRODUCT_PACKAGES += \
+PRODUCT_PACKAGES += \
         com.android.future.usb.accessory
 
 # Misc other modules
 PRODUCT_PACKAGES += \
         audio.a2dp.default \
-        audio.usb.default
+        audio.usb.default \
+        audio.r_submix.default
+
 
 # Device-specific packages
 PRODUCT_PACKAGES += \
@@ -117,7 +119,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     mobiledata.interfaces=rmnet0 \
     ro.telephony.ril_class=SamsungBCMRIL \
     ro.zygote.disable_gl_preload=true \
-    persist.radio.multisim.config=dsds \
     ro.telephony.call_ring.multiple=0 \
     ro.telephony.call_ring=0 \
     ro.config.low_ram=true \
@@ -141,10 +142,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp
 
-# Boot animation
-TARGET_SCREEN_HEIGHT := 320
-TARGET_SCREEN_WIDTH := 240
-
 # Dalvik heap config
 include frameworks/native/build/phone-hdpi-512-dalvik-heap.mk
 
@@ -155,7 +152,7 @@ $(call inherit-product, hardware/broadcom/wlan/bcmdhd/config/config-bcm.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
-PRODUCT_NAME := full_ivoryss
+PRODUCT_NAME := slim_ivoryss
 PRODUCT_DEVICE := ivoryss
 PRODUCT_BRAND := samsung
 PRODUCT_MANUFACTURER := samsung

@@ -85,7 +85,7 @@ TARGET_RECOVERY_FSTAB := device/samsung/ivoryss/rootdir/fstab.rhea_ss_ivoryss
 BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/ivoryss/recovery/recovery_keys.c
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 BOARD_LDPI_RECOVERY := true
-BOARD_USE_CUSTOM_RECOVERY_FONT := "<font_7x16.h>"
+BOARD_USE_CUSTOM_RECOVERY_FONT := "<font_10x18.h>"
 
 # UMS
 TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_storage/lun%d/file"
@@ -99,3 +99,17 @@ BOARD_SEPOLICY_DIRS += \
 
 BOARD_SEPOLICY_UNION += \
     file_contexts \
+
+#twrp
+DEVICE_RESOLUTION := 240x240
+RECOVERY_SDCARD_ON_DATA := true
+BOARD_HAS_NO_REAL_SDCARD := true
+
+TW_INTERNAL_STORAGE_PATH := "/data/media"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
+TW_EXTERNAL_STORAGE_PATH := "/sdcard"
+TW_EXTERNAL_STORAGE_MOUNT_POINT := "sdcard"
+
+TW_CUSTOM_POWER_BUTTON := 107
+
+PRODUCT_COPY_FILES += device/samsung/ivoryss/twrp.fstab:recovery/root/etc/twrp.fstab
