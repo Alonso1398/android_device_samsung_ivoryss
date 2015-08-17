@@ -101,15 +101,32 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_stora
 # CMHW
 BOARD_HARDWARE_CLASS := hardware/samsung/cmhw/ device/samsung/ivoryss/cmhw/
 
+# Compat
+TARGET_USES_LOGD := false
+
+# jemalloc causes a lot of random crash on free()
+MALLOC_IMPL := dlmalloc
+
 # SELinux
 BOARD_SEPOLICY_DIRS += \
     device/samsung/ivoryss/sepolicy
 
 BOARD_SEPOLICY_UNION += \
     file_contexts \
-    surfaceflinger.te \
-    init.te \
-    shell.te \
-    netd.te \
+    property_contexts \
+    service_contexts \
+    bkmgrd.te \
     device.te \
+    geomagneticd.te \
+    gpsd.te \
+    init.te \
+    immvibed.te \
+    kernel.te \
+    macloader.te \
     rild.te \
+    shell.te \
+    system_server.te \
+    tvserver.te \
+    vclmk.te \
+    netd.te \
+    surfaceflinger.te \
