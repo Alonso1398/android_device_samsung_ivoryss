@@ -513,6 +513,11 @@ service macloader /system/bin/macloader
 	class main
 	oneshot
 
+# GSM/HSDPA data workaround
+service data_workaround /system/bin/sh /init.fix.sh
+    user root
+    disabled
+
 on property:init.svc.macloader=stopped
     chown system root /data/.cid.info
     chmod 0664 /data/.cid.info
@@ -549,5 +554,10 @@ service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1
     class late_start
     oneshot
     disabled
+
+# GSM/HSDPA data Workaroud
+on property:gsm.defaultpdpcontext.active=true
+    start data_workaround
+
 
 
