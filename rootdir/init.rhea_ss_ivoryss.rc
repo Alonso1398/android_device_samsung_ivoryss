@@ -313,6 +313,18 @@ on boot
     chmod 0777 /data/DiamondVoice_Filter.txt
 	insmod /system/lib/modules/VoiceSolution.ko
 
+on charger
+    # set cpu governor to powersave while in charging mode
+    write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor powersave
+    # EHCI runtime enable for LPA
+    write /sys/devices/platform/s5p-ehci/power/control auto
+
+    chmod 0660 /proc/vc
+    chmod 0660 /proc/vc/display
+    chmod 0660 /proc/vc/display/vchiq_control
+    write /proc/vc/display/vchiq_control "earlysuspctrl "
+    write /proc/vc/display/vchiq_control "autosuspend "
+
 on fs
     mount_all /fstab.rhea_ss_ivoryss
     setprop ro.crypto.fuse_sdcard true
@@ -422,11 +434,17 @@ service rhea-ril-daemon /system/bin/rild
     user root
     group radio cache inet misc audio system sdcard_rw log sdcard_r
 
+service charger /sbin/healthd -c
+    class charger
+    critical
+    seclabel u:r:healthd:s0
+
 # create virtual SD card at /storage/sdcard, based on the /data/media directory
 # daemon will drop to user/group system/media_rw after initializing
 # underlying files in /data/media will be created with user and group media_rw (1023)
 service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
     class late_start
+    oneshot
 
 service wpa_supplicant /system/bin/logwrapper /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
@@ -495,6 +513,11 @@ service macloader /system/bin/macloader
 	class main
 	oneshot
 
+# GSM/HSDPA data workaround
+service data_workaround /system/bin/sh /init.fix.sh
+    user root
+    disabled
+
 on property:init.svc.macloader=stopped
     chown system root /data/.cid.info
     chmod 0664 /data/.cid.info
@@ -529,5 +552,12 @@ on property:dev.bootcomplete=1
 # fusewrapped external sdcard daemon running as media_rw (1023)
 service fuse_sdcard1 /system/bin/sdcard -u 1023 -g 1023 -d /mnt/media_rw/sdcard1 /storage/sdcard1
     class late_start
+    oneshot
     disabled
+
+# GSM/HSDPA data Workaroud
+on property:gsm.defaultpdpcontext.active=true
+    start data_workaround
+
+
 

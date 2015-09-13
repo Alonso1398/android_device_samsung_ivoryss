@@ -37,11 +37,10 @@ PRODUCT_COPY_FILES += \
         device/samsung/ivoryss/rootdir/init.rhea_ss_ivoryss.rc:root/init.rhea_ss_ivoryss.rc \
         device/samsung/ivoryss/rootdir/init.bcm2165x.usb.rc:root/init.bcm2165x.usb.rc \
         device/samsung/ivoryss/rootdir/init.log.rc:root/init.log.rc \
-        device/samsung/ivoryss/rootdir/lpm.rc:root/lpm.rc \
         device/samsung/ivoryss/rootdir/ueventd.rhea_ss_ivoryss.rc:root/ueventd.rhea_ss_ivoryss.rc \
         device/samsung/ivoryss/rootdir/init.recovery.rhea_ss_ivoryss.rc:root/init.recovery.rhea_ss_ivoryss.rc \
         device/samsung/ivoryss/rootdir/fstab.rhea_ss_ivoryss:root/fstab.rhea_ss_ivoryss \
-        device/samsung/ivoryss/rootdir/charger:root/charger
+        device/samsung/ivoryss/rootdir/init.fix.sh:root/init.fix.sh
 
 # Prebuilt kl keymaps
 PRODUCT_COPY_FILES += \
@@ -77,13 +76,7 @@ PRODUCT_PACKAGES += \
 
 # Charger
 PRODUCT_PACKAGES += \
-        charger \
         charger_res_images
-
-#Wi-fi thetering fix
-PRODUCT_COPY_FILES += \
-        device/samsung/ivoryss/wpa_supplicant:system/bin/wpa_supplicant \
-        device/samsung/ivoryss/hostapd:system/bin/hostapd
 
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
@@ -111,18 +104,25 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libskia_legacy
 
+# Building with wpa_supplicant binary
+PRODUCT_PACKAGES += \
+    wpa_supplicant \
+    hostapd
+
 # These are the hardware-specific settings that are stored in system properties.
 # Note that the only such settings should be the ones that are too low-level to
 # be reachable from resources or other mechanisms.
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0 \
-    mobiledata.interfaces=rmnet0 \
+    mobiledata.interfaces=wlan0,gprs,rmnet0,rmnet1 \
     ro.telephony.ril_class=SamsungBCMRIL \
     ro.zygote.disable_gl_preload=true \
     ro.telephony.call_ring.multiple=0 \
     ro.telephony.call_ring=0 \
     ro.config.low_ram=true \
-    persist.sys.force_highendgfx=true
+    persist.sys.force_highendgfx=true \
+    dalvik.vm.dex2oat-filter=interpret-only \
+    dalvik.vm.image-dex2oat-filter=speed
 
 # enable Google-specific location features,
 # like NetworkLocationProvider and LocationCollector

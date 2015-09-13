@@ -3,6 +3,9 @@ USE_CAMERA_STUB := true
 # inherit from the proprietary version
 -include vendor/samsung/ivoryss/BoardConfigVendor.mk
 
+# Legacy MMAP for pre-lollipop blobs
+BOARD_USES_LEGACY_MMAP := true
+
 TARGET_ARCH := arm
 TARGET_NO_BOOTLOADER := true
 TARGET_BOARD_PLATFORM := rhea
@@ -26,7 +29,12 @@ BOARD_BOOTIMAGE_PARTITION_SIZE := 0x00800000
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 0x00800000
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 939524096
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 2236070912
+BOARD_CACHEIMAGE_PARTITION_SIZE := 536870912
+BOARD_CACHEIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_FLASH_BLOCK_SIZE := 131072
+
+# Include an expanded selection of fonts
+EXTENDED_FONT_FOOTPRINT := true
 
 TARGET_KERNEL_SOURCE := kernel/samsung/ivoryss
 TARGET_KERNEL_CONFIG := cyanogenmod_ivoryss_defconfig
@@ -93,15 +101,39 @@ TARGET_USE_CUSTOM_LUN_FILE_PATH := "/sys/class/android_usb/android0/f_mass_stora
 # CMHW
 BOARD_HARDWARE_CLASS := hardware/samsung/cmhw/ device/samsung/ivoryss/cmhw/
 
+# Compat
+TARGET_USES_LOGD := false
+
+# jemalloc causes a lot of random crash on free()
+MALLOC_IMPL := dlmalloc
+
 # SELinux
 BOARD_SEPOLICY_DIRS += \
     device/samsung/ivoryss/sepolicy
 
 BOARD_SEPOLICY_UNION += \
     file_contexts \
+    property_contexts \
+    service_contexts \
+    bkmgrd.te \
+    device.te \
+    geomagneticd.te \
+    gpsd.te \
+    init.te \
+    immvibed.te \
+    kernel.te \
+    macloader.te \
+    rild.te \
+    shell.te \
+    system_server.te \
+    tvserver.te \
+    vclmk.te \
+    netd.te \
+    surfaceflinger.te
+
 
 #twrp
-DEVICE_RESOLUTION := 240x240
+DEVICE_RESOLUTION := 320x320
 RECOVERY_SDCARD_ON_DATA := true
 BOARD_HAS_NO_REAL_SDCARD := true
 
