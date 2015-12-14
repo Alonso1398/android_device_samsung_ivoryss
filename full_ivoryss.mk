@@ -66,7 +66,13 @@ PRODUCT_PACKAGES += \
 # Misc other modules
 PRODUCT_PACKAGES += \
         audio.a2dp.default \
-        audio.usb.default
+        audio.usb.default \
+        audio.r_submix.default
+
+#Wi-fi thetering fix
+PRODUCT_COPY_FILES += \
+        device/samsung/ivoryss/wpa_supplicant:system/bin/wpa_supplicant \
+        device/samsung/ivoryss/hostapd:system/bin/hostapd
 
 # Device-specific packages
 PRODUCT_PACKAGES += \
@@ -78,14 +84,10 @@ PRODUCT_PACKAGES += \
         charger \
         charger_res_images
 
-#Wi-fi thetering fix
-PRODUCT_COPY_FILES += \
-        device/samsung/ivoryss/wpa_supplicant:system/bin/wpa_supplicant \
-        device/samsung/ivoryss/hostapd:system/bin/hostapd
-
 # These are the hardware-specific features
 PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
+        frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
 	frameworks/native/data/etc/android.hardware.camera.front.xml:system/etc/permissions/android.hardware.camera.front.xml \
 	frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:system/etc/permissions/android.hardware.camera.flash-autofocus.xml \
 	frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
