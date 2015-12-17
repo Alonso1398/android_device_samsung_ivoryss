@@ -75,8 +75,9 @@ BOARD_USE_MHEAP_SCREENSHOT := true
 BOARD_EGL_WORKAROUND_BUG_10194508 := true
 TARGET_RUNNING_WITHOUT_SYNC_FRAMEWORK := true
 BOARD_EGL_NEEDS_FNW := true
+BOARD_EGL_NEEDS_LEGACY_FB := TRUE
 COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
-COMMON_GLOBAL_CFLAGS += -DMR0_CAMERA_BLOB -DEGL_NEEDS_FNW
+COMMON_GLOBAL_CFLAGS += -DMR0_CAMERA_BLOB -DEGL_NEEDS_FNW  -DEGL_NEEDS_LEGACY_FB
 
 # Audio
 COMMON_GLOBAL_CFLAGS += -DMR0_AUDIO_BLOB -DRHEA_HWC -DCAPRI_HWC
@@ -90,7 +91,6 @@ BOARD_RIL_CLASS := ../../../device/samsung/ivoryss/ril/
 
 # Recovery
 TARGET_RECOVERY_FSTAB := device/samsung/ivoryss/rootdir/fstab.rhea_ss_ivoryss
-BOARD_CUSTOM_RECOVERY_KEYMAPPING := ../../device/samsung/ivoryss/recovery/recovery_keys.c
 TARGET_RECOVERY_PIXEL_FORMAT := "BGRA_8888"
 BOARD_LDPI_RECOVERY := true
 BOARD_USE_CUSTOM_RECOVERY_FONT := "<font_7x16.h>"
@@ -129,4 +129,18 @@ BOARD_SEPOLICY_UNION += \
     tvserver.te \
     vclmk.te \
     netd.te \
-    surfaceflinger.te \
+    surfaceflinger.te
+
+#twrp
+DEVICE_RESOLUTION := 240x240
+RECOVERY_SDCARD_ON_DATA := true
+BOARD_HAS_NO_REAL_SDCARD := true
+
+TW_INTERNAL_STORAGE_PATH := "/data/media"
+TW_INTERNAL_STORAGE_MOUNT_POINT := "data"
+TW_EXTERNAL_STORAGE_PATH := "/sdcard"
+TW_EXTERNAL_STORAGE_MOUNT_POINT := "sdcard"
+
+TW_CUSTOM_POWER_BUTTON := 107
+
+PRODUCT_COPY_FILES += device/samsung/ivoryss/twrp.fstab:recovery/root/etc/twrp.fstab
