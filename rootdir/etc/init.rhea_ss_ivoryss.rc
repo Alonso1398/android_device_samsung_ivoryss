@@ -514,7 +514,7 @@ service macloader /system/bin/macloader
 	oneshot
 
 # GSM/HSDPA data workaround
-service data_workaround /system/bin/sh /init.fix.sh
+service data_workaround /system/bin/sh /ril_data.sh
     user root
     disabled
 
